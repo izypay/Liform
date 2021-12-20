@@ -22,9 +22,11 @@ use Symfony\Component\Form\Guess\Guess;
 class ValidatorGuesser extends ValidatorTypeGuesser
 {
     /**
-     * {@inheritdoc}
+     * @param string $class
+     * @param string $property
+     * @return Guess|null
      */
-    public function guessMinLength(string $class, string $property)
+    public function guessMinLength(string $class, string $property): ?Guess
     {
         return $this->guess($class, $property, function (Constraint $constraint) {
             return $this->guessMinLengthForConstraint($constraint);
@@ -38,7 +40,7 @@ class ValidatorGuesser extends ValidatorTypeGuesser
      *
      * @return ValueGuess|null The guess for the minimum length
      */
-    public function guessMinLengthForConstraint(Constraint $constraint)
+    public function guessMinLengthForConstraint(Constraint $constraint): ?ValueGuess
     {
         switch (get_class($constraint)) {
             case 'Symfony\Component\Validator\Constraints\Length':
@@ -57,5 +59,7 @@ class ValidatorGuesser extends ValidatorTypeGuesser
                 }
                 break;
         }
+
+        return null;
     }
 }
